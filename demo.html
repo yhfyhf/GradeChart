@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+<head>
+    <title>Chart of YHF's grades</title>
+	  <script type="text/javascript" src="data.js"></script>
+	  <script type="text/javascript" src="getData.js"></script>
+	  <script type="text/javascript" src="data.min.js"></script>
+	  <script type="text/javascript" src="getData.js"></script>
+  	<script type="text/javascript" src="canvasjs.min.js"></script>
+  	<script type="text/javascript" src="chartGradeInterval.js"></script>
+  	<script type="text/javascript" src="chartTime.js"></script>
+  	<script type="text/javascript" src="chartTimeCredit.js"></script>
+
+  	<script type="text/javascript">
+    function startChartGradeInterval(course){
+      eval(divideByGrade(course));   
+      var chart1 = new CanvasJS.Chart("gradeIntervalChart", {        
+        title:{
+              text: "Distribution of My Grades",
+              fontWeight: "bolder",
+              fontColor: "#008B8B",
+              fontFamily: "tahoma",        
+              fontSize: 40,
+              backgroundColor: "#FFFFE0",
+              borderThickness: 1,
+              cornerRadius: 5,
+              fontWeight: "bold"         
+            },
+            axisX: {
+              labelAngle: -30,
+              title: "Grade Intervals",
+              titleFontFamily: "comic sans ms"
+            },
+            axisY: {
+              title: "Number",
+              titleFontFamily: "comic sans ms",
+            },
+            data:[{ 
+              type: "column",
+              dataPoints: gradeIntervalDataPoints 
+            }]
+        });
+      chart1.render();
+    }
+
+    function startChartTime(course){
+      eval(divideByTime(course));
+      var chart2 = new CanvasJS.Chart("timeChart", {
+        backgroundColor: "#f5f5f5",
+        theme: "theme2",
+        title:{
+              text: "Average Grades Of Semesters",
+              fontWeight: "bolder",
+              fontColor: "#008B8B",
+              fontFamily: "tahoma",        
+              fontSize: 40,
+              backgroundColor: "#FFFFE0",
+              borderThickness: 1,
+              cornerRadius: 5,
+              fontWeight: "bold"         
+            },
+            axisX: {
+              title: "Semester",
+              titleFontFamily: "comic sans ms"
+            },
+            axisY: {
+              title: "Average Grade",
+              titleFontFamily: "comic sans ms",
+              minimum: 0,
+              maximum: 100
+            },
+            data:[{ 
+              type: "bar",
+              dataPoints: timeDataPoints 
+            },//{
+              //type: "line",
+              //dataPoints: timeDataPoints}
+            ]
+        });
+      chart2.render();
+    }
+    
+    function startChartTimeCredit(course){
+      eval(divideByTimeCredit(course));
+      var chart3 = new CanvasJS.Chart("timeChartCredit", {
+        title:{
+              text: "Credits Of Every Semester",
+              fontWeight: "bolder",
+              fontColor: "#008B8B",
+              fontFamily: "tahoma",        
+              fontSize: 40,
+              backgroundColor: "#FFFFE0",
+              borderThickness: 1,
+              cornerRadius: 5,
+              fontWeight: "bold"         
+            },
+            data:[{ 
+              type: "pie",
+              dataPoints: timeCreditDataPoints,
+              showInLegend: true
+            }]
+        });
+      chart3.render();
+    }
+  </script>
+
+</head>
+
+<body onload="startChartGradeInterval(myCourse); startChartTime(myCourse); startChartTimeCredit(myCourse); " style="background-color:#f5f5f5;font-family: 'Exo 2', sans-serif;">
+	<div>
+		<h1 align="center" style="font-size:4em; font-family:sans-serif;">Chart of YHF's grades</h1>
+	</div>
+	<div id="gradeIntervalChart" style="height: 400px; width: 100%;"></div>
+  <div id="timeChart" style="height:400px; width: 100%;"></div>
+  <div id="timeChartCredit" style="height:400px; width: 100%;"></div>
+</body>
+<footer align="center" style="font-size:80%;">
+    <br>
+    Copyright @ 2014-Ying Haofei. All Rights Reserved.
+ </footer>
+</html>
