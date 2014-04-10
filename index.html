@@ -1,0 +1,236 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="button.css">
+  <script type="text/javascript">
+    var course = [];
+  </script>
+  
+  <script type="text/javascript" src="getData.js"></script>
+  <script type="text/javascript" src="canvasjs.min.js"></script>
+  <script type="text/javascript" src="chartGradeInterval.js"></script>
+  <script type="text/javascript" src="chartTime.js"></script>
+  <script type="text/javascript" src="chartTimeCredit.js"></script>
+
+  <script type="text/javascript">
+    function startChartGradeInterval(course){
+      eval(divideByGrade(course));   
+      var chart1 = new CanvasJS.Chart("gradeIntervalChart", {        
+        title:{
+              text: "Distribution of My Grades",
+              fontWeight: "bolder",
+              fontColor: "#008B8B",
+              fontFamily: "tahoma",        
+              fontSize: 40,
+              backgroundColor: "#FFFFE0",
+              borderThickness: 1,
+              cornerRadius: 5,
+              fontWeight: "bold"         
+            },
+            axisX: {
+              labelAngle: -30,
+              title: "Grade Intervals",
+              titleFontFamily: "comic sans ms"
+            },
+            axisY: {
+              title: "Number",
+              titleFontFamily: "comic sans ms",
+            },
+            data:[{ 
+              type: "column",
+              dataPoints: gradeIntervalDataPoints 
+            }]
+        });
+      chart1.render();
+    }
+
+    function startChartTime(course){
+      eval(divideByTime(course));
+      var chart2 = new CanvasJS.Chart("timeChart", {
+        backgroundColor: "#f5f5f5",
+        theme: "theme2",
+        title:{
+              text: "Average Grades Of Semesters",
+              fontWeight: "bolder",
+              fontColor: "#008B8B",
+              fontFamily: "tahoma",        
+              fontSize: 40,
+              backgroundColor: "#FFFFE0",
+              borderThickness: 1,
+              cornerRadius: 5,
+              fontWeight: "bold"         
+            },
+            axisX: {
+              title: "Semester",
+              titleFontFamily: "comic sans ms"
+            },
+            axisY: {
+              title: "Average Grade",
+              titleFontFamily: "comic sans ms",
+              minimum: 0,
+              maximum: 100
+            },
+            data:[{ 
+              type: "bar",
+              dataPoints: timeDataPoints 
+            },//{
+              //type: "line",
+              //dataPoints: timeDataPoints}
+            ]
+        });
+      chart2.render();
+    }
+    
+    function startChartTimeCredit(course){
+      eval(divideByTimeCredit(course));
+      var chart3 = new CanvasJS.Chart("timeChartCredit", {
+        title:{
+              text: "Credits Of Every Semester",
+              fontWeight: "bolder",
+              fontColor: "#008B8B",
+              fontFamily: "tahoma",        
+              fontSize: 40,
+              backgroundColor: "#FFFFE0",
+              borderThickness: 1,
+              cornerRadius: 5,
+              fontWeight: "bold"         
+            },
+            data:[{ 
+              type: "pie",
+              showInLegend: true,
+              name: "2011",
+              dataPoints: timeCreditDataPoints 
+            }]
+        });
+      chart3.render();
+    }
+  </script>
+  
+  <script type="text/javascript"> 
+    var start = function(course){
+      var gradeIntervalChart = document.getElementById("gradeIntervalChart");
+      gradeIntervalChart.style.height = "400px"; gradeIntervalChart.style.width = "100%";
+      var timeChart = document.getElementById("timeChart");
+      timeChart.style.height = "400px"; timeChart.style.width = "100%";
+      var timeChartCredit = document.getElementById("timeChartCredit");
+      timeChartCredit.style.height = "400px"; timeChartCredit.style.width = "100%";
+      startChartGradeInterval(course);
+      startChartTime(course);
+      startChartTimeCredit(course);
+    };
+    var add = function(course){
+      course=getData(course);
+      return course;
+    };
+  </script>
+
+  <script type="text/javascript">
+    WebFontConfig = {
+      google: { families: [ 'Exo+2::latin' ] }
+    };
+    (function() {
+      var wf = document.createElement('script');
+      wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+        '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+      wf.type = 'text/javascript';
+      wf.async = 'true';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(wf, s);
+    })(); 
+  </script>
+</head>
+
+<body>
+  <div id="heading">
+    <h1>Grade Chart</h1>
+    <div class="intro">
+      <p>
+        Grade Chart is a set of charts to visualize your courses scores. It facilitates your analysis of data, which can be displayed in a more visual and vivid way. 
+      </p>
+      <p>
+        What you need to is to fill in the blanks below. Mind those blanks with a red star <label style="color:red;">*</label> before are MUSTs. Your job is to select the time of a certain course, (to fill with the name of course), to select the type of course, to fill with the credits of course from 0 to 6 in an interval of 0.5, and to fill with your score from 0 to 100. Click the <strong>"Add"</strong> button to add the course to the course list. At last, you just need to click the <strong>"Visualize"</strong> button.
+      </p>
+      <p>
+        In the first chart, your can see the distribution of all your scores in an interval of 5 from 60 to 100. And in the second, it's a column chart which shows your average grades of every semester. The last chart shows the credits you had got in every semester.
+      </p>
+      <div align="center"><a class="button cta hover-shadow" href="demo.html">Demo</a></div>
+    </div>
+  </div>
+
+  <div id="input">
+    <table border="0" height="200px">
+      <tr>
+        <td id="column1">
+          <div id="addCourse">
+            <table> 
+              <tr>
+                <td><strong class="star">*</strong></td>
+                <td class="td_input">Time:</td>
+                <td>
+                  <select id="time">
+                    <option value="2011 Fall" selected="selected">2011 Fall</option>
+                    <option value="2012 Spring">2012 Spring</option>
+                    <option value="2012 Fall">2012 Fall</option>
+                    <option value="2013 Spring">2013 Spring</option>
+                    <option value="2013 Fall">2013 Fall</option>
+                  </select>
+                <td>
+              <tr>
+                <td></td>
+                <td>Course:</td>
+                <td><input type="text" id="courseName" placeholder="Course" /><td>
+              </tr>
+              <tr>
+                <td><strong class="star">*</strong></td>
+                <td>Type:</td>
+                <td>
+                  <input type="radio" name="identity" value="Required" checked />Required
+                  <input type="radio" name="identity" value="Limited" />Limited
+                  <input type="radio" name="identity" value="Elective" />Elective
+                </td>
+              <tr>
+                <td><strong class="star">*</strong></td>
+                <td>Credit:</td>
+                <td><input id="credit" type="number" placeholder="Credit" min="0" max="6" step="0.5" required="required" /></td>
+              </tr>
+              <tr>
+                <td><strong class="star">*</strong></td>
+                <td>Score:</td>
+                <td><input id="score" type="number" placeholder="Score" min="0" max="100" step="0.5" required="required" /></td>
+            </table>
+            <div id="button">  
+              <button id="add" onclick="course=add(course);" class="wobble-vertical">Add</button>
+              <button onclick="start(course);" class="buzz-out">Visualize</button>
+            </div>   
+          </div>
+        </td>
+        <td> 
+          <div id="currentCourse">
+            <table id="courseList" rules="rows" >
+              <tr id="title">
+                <td id="timeList">Time</td>
+                <td id="courseNameList">Course</td>
+                <td id="typeList">Type</td>
+                <td id="creditList">Credit</td>
+                <td>Score</td>
+              </tr>
+            </table>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <br>
+  <div id="gradeIntervalChart"></div>
+  <div id="timeChart"></div>
+  <div id="timeChartCredit"></div>
+</body>
+
+<footer align="center" style="font-size:80%;">
+    <br>
+    Copyright @ 2014-Ying Haofei. All Rights Reserved.
+  </footer>
+
+</html>
